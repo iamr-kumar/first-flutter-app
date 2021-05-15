@@ -1,22 +1,37 @@
+import 'package:first_app/question.dart';
 import 'package:flutter/material.dart';
+import 'package:first_app/answer.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  var questions = ["What's your favorite book?", "What's your favorite song?"];
+class _MyAppState extends State<MyApp> {
+  var questions = [
+    {
+      'questionText': 'What\'s you favorite color?',
+      'answers': ['Black', 'Red', 'Yellow', 'Blue']
+    },
+    {
+      'questionText': 'What\'s you favorite food?',
+      'answers': ['Pizza', 'Noodles', 'Burger', 'Pancakes']
+    },
+    {
+      'questionText': 'What\'s you favorite pet?',
+      'answers': ['Dog', 'Bird', 'Cat', 'Rabbit']
+    },
+  ];
 
-  var questionIndex = 0;
+  var _questionIndex = 0;
 
-  void answerQuestion() {
+  void _answerQuestion() {
     setState(() {
-      questionIndex = questionIndex + 1;
+      _questionIndex = _questionIndex + 1;
     });
     print("Answered");
   }
@@ -29,11 +44,11 @@ class MyAppState extends State<MyApp> {
           title: Text("First Flutter App"),
         ),
         body: Column(children: [
-          Text(questions.elementAt(questionIndex)),
-          ElevatedButton(child: Text('Answer 1'), onPressed: answerQuestion),
-          ElevatedButton(child: Text('Answer 2'), onPressed: answerQuestion),
-          ElevatedButton(child: Text('Answer 3'), onPressed: answerQuestion),
-          ElevatedButton(child: Text('Answer 4'), onPressed: answerQuestion),
+          Question(questions[_questionIndex]['questionText'] as String),
+          ...(questions[_questionIndex]['answers'] as List<String>)
+              .map((answer) {
+            return Answer(_answerQuestion, answer);
+          }).toList()
         ]),
       ),
     );
